@@ -1,0 +1,464 @@
+{
+  "_version": "1.0",
+  "metadata": {
+    "FORMAT": {
+      "value": "1A"
+    },
+    "HOST": {
+      "value": "https://forgeapi.puppetlabs.com/v3"
+    }
+  },
+  "name": "Puppet Forge API",
+  "description": "The Puppet Forge API (hereafter referred to as the Forge API) provides quick access to all the data on the Puppet Forge via a RESTful interface. Using the Forge API, you can write scripts and tools that interact with the Puppet Forge website. For example, you can use it to create custom aggregations against module metadata.\n\nTools like the puppet module tool and librarian-puppet use the Forge API to query and install modules; additional tools, such as Geppetto or Pulp, leverage the API to manage development workflow.\n\n## Current Version\nThe Forge API’s current version is `v3`. It’s considered regression-stable, meaning that the returned data is guaranteed to match the schema described on this page; however, additional data might be added in the future and existing clients may ignore any properties they do not recognize.\n\nThe API currently exposes three resource types: Users, Modules, and Releases. Details for these resources, including available parameters and response schemas, can be found within the interactive UI above this section.\n\nThis version of the API does not currently support authentication or any of the operations that would normally require authentication, such as publishing, updating, or deleting modules.\n\n## Explore the API\nTake a tour of the Forge API below by examining endpoints and seeing the available parameters and response schemas.\n\n",
+  "resourceGroups": [
+    {
+      "name": "Module Resource",
+      "description": "",
+      "resources": [
+        {
+          "name": "",
+          "description": "",
+          "uriTemplate": "/modules{?query,owner,tag,show_deleted,sort_by,limit,offset}",
+          "model": {},
+          "parameters": {},
+          "headers": {},
+          "actions": [
+            {
+              "name": "",
+              "description": "Returns a list of modules meeting the specified criteria. Results are paginated and all of the parameters are optional.\n\n",
+              "method": "GET",
+              "parameters": {
+                "query": {
+                  "description": "General search query",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "mysql",
+                  "values": []
+                },
+                "owner": {
+                  "description": "Search for modules with a given owner",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "puppetlabs",
+                  "values": []
+                },
+                "tag": {
+                  "description": "Limits the results to modules that have the given tag",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "time",
+                  "values": []
+                },
+                "show_deleted": {
+                  "description": "Includes modules with no releases in the results (default is false)",
+                  "type": "boolean",
+                  "required": false,
+                  "default": "",
+                  "example": "",
+                  "values": [
+                    "true",
+                    "false"
+                  ]
+                },
+                "sort_by": {
+                  "description": "Change the order in which results are returned",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "",
+                  "values": [
+                    "rank",
+                    "downloads",
+                    "latest_release"
+                  ]
+                },
+                "limit": {
+                  "description": "Limits the number of results per page (default is 20)",
+                  "type": "number",
+                  "required": false,
+                  "default": "",
+                  "example": "10",
+                  "values": []
+                },
+                "offset": {
+                  "description": "Omits results from the beginning of the set, used for pagination (default is 0)",
+                  "type": "number",
+                  "required": false,
+                  "default": "",
+                  "example": "20",
+                  "values": []
+                }
+              },
+              "headers": {},
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": {
+                        "content-type": {
+                          "value": "application/json;charset=utf-8"
+                        }
+                      },
+                      "body": "See response schema.\n",
+                      "schema": "{\n  \"total\": \"integer\",\n  \"limit\": \"integer\",\n  \"offset\": \"integer\",\n  \"current\": \"uri\",\n  \"next\": \"uri\",\n  \"previous\": \"uri\",\n  \"results\": [\n    {\n      \"uri\": \"uri\",\n      \"name\": \"string\",\n      \"downloads\": \"integer\",\n      \"created_at\": \"date-time\",\n      \"updated_at\": \"date-time\",\n      \"owner\": {\n        \"uri\": \"string\",\n        \"username\": \"string\"\n      },\n      \"current_release\": {\n        \"uri\": \"string\",\n        \"version\": \"string\",\n        \"module\": \"object\",\n        \"metadata\": \"object\",\n        \"tags\": [\n          \"string\"\n        ],\n        \"file_size\": \"integer\",\n        \"file_md5\": \"string\",\n        \"downloads\": \"integer\",\n        \"readme\": \"string\",\n        \"changelog\": \"string\",\n        \"license\": \"string\",\n        \"created_at\": \"date-time\",\n        \"updated_at\": \"date-time\",\n        \"deleted_at\": \"date-time\"\n      },\n      \"releases\": [\n        {\n          \"uri\": \"uri\",\n          \"version\": \"string\"\n        }\n      ],\n      \"homepage_url\": \"uri\",\n      \"issues_url\": \"uri\"\n    }\n  ]\n}        \n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "",
+          "description": "",
+          "uriTemplate": "/modules/{user}-{module}",
+          "model": {},
+          "parameters": {},
+          "headers": {},
+          "actions": [
+            {
+              "name": "",
+              "description": "Requires both user and module to be defined. No optional parameters are supported for this endpoint, so use the `/modules` endpoint if you want to omit something and/or specify additional criteria.\n\n",
+              "method": "GET",
+              "parameters": {
+                "user": {
+                  "description": "The name of the user who maintains the module",
+                  "type": "string",
+                  "required": true,
+                  "default": "",
+                  "example": "puppetlabs",
+                  "values": []
+                },
+                "module": {
+                  "description": "The name of the module to be queried",
+                  "type": "string",
+                  "required": true,
+                  "default": "",
+                  "example": "ntp",
+                  "values": []
+                }
+              },
+              "headers": {},
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": {
+                        "Content-Type": {
+                          "value": "application/json"
+                        }
+                      },
+                      "body": "See response schema.\n",
+                      "schema": "{\n  \"uri\": \"uri\",\n  \"name\": \"string\",\n  \"downloads\": \"integer\",\n  \"created_at\": \"date-time\",\n  \"updated_at\": \"date-time\",\n  \"owner\": {\n    \"uri\": \"string\",\n    \"username\": \"string\"\n  },\n  \"current_release\": {\n    \"uri\": \"string\",\n    \"version\": \"string\",\n    \"module\": \"object\",\n    \"metadata\": \"object\",\n    \"tags\": [\n      \"string\"\n    ],\n    \"file_size\": \"integer\",\n    \"file_md5\": \"string\",\n    \"downloads\": \"integer\",\n    \"readme\": \"string\",\n    \"changelog\": \"string\",\n    \"license\": \"string\",\n    \"created_at\": \"date-time\",\n    \"updated_at\": \"date-time\",\n    \"deleted_at\": \"date-time\"\n  },\n  \"releases\": [\n    {\n      \"uri\": \"uri\",\n      \"version\": \"string\"\n    }\n  ],\n  \"homepage_url\": \"uri\",\n  \"issues_url\": \"uri\"\n}\n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User Resource",
+      "description": "",
+      "resources": [
+        {
+          "name": "",
+          "description": "",
+          "uriTemplate": "/users{?sort_by,limit,offset}",
+          "model": {},
+          "parameters": {},
+          "headers": {},
+          "actions": [
+            {
+              "name": "",
+              "description": "Provides information about Puppet Forge user accounts. By default, results are returned in alphabetical order by username and paginated with 20 users per page. It's also possible to sort by number of published releases, total download counts for all the user's modules, or by the date of the user's latest release. All parameters are optional.\n\n",
+              "method": "GET",
+              "parameters": {
+                "sort_by": {
+                  "description": "Changes the order of returned results",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "",
+                  "values": [
+                    "username",
+                    "releases",
+                    "downloads",
+                    "latest_release"
+                  ]
+                },
+                "limit": {
+                  "description": "Limits the number of results per page (default is 20)",
+                  "type": "number",
+                  "required": false,
+                  "default": "",
+                  "example": "",
+                  "values": []
+                },
+                "offset": {
+                  "description": "Omits results from the beginning of the set, used for pagination (default is 0)",
+                  "type": "number",
+                  "required": false,
+                  "default": "",
+                  "example": "",
+                  "values": []
+                }
+              },
+              "headers": {},
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": {
+                        "Content-Type": {
+                          "value": "application/json"
+                        }
+                      },
+                      "body": "See response schema.\n",
+                      "schema": "{\n  \"total\": \"integer\",\n  \"limit\": \"integer\",\n  \"offset\": \"integer\",\n  \"current\": \"uri\",\n  \"next\": \"uri\",\n  \"previous\": \"uri\",\n  \"results\": [\n    {\n      \"uri\": \"uri\",\n      \"gravatar_id\": \"string\",\n      \"username\": \"string\",\n      \"display_name\": \"string\",\n      \"release_count\": \"integer\",\n      \"module_count\": \"integer\",\n      \"created_at\": \"date-time\",\n      \"updated_at\": \"date-time\"\n    }\n  ]\n}            \n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "",
+          "description": "",
+          "uriTemplate": "/users/{user}",
+          "model": {},
+          "parameters": {},
+          "headers": {},
+          "actions": [
+            {
+              "name": "",
+              "description": "Returns data about the specified user. Does not support any optional parameters.\n\n",
+              "method": "GET",
+              "parameters": {
+                "user": {
+                  "description": "The username to query by",
+                  "type": "string",
+                  "required": true,
+                  "default": "",
+                  "example": "puppetlabs",
+                  "values": []
+                }
+              },
+              "headers": {},
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": {
+                        "Content-Type": {
+                          "value": "application/json"
+                        }
+                      },
+                      "body": "See response schema.\n",
+                      "schema": "{\n  \"uri\": \"uri\",\n  \"gravatar_id\": \"string\",\n  \"username\": \"string\",\n  \"display_name\": \"string\",\n  \"release_count\": \"integer\",\n  \"module_count\": \"integer\",\n  \"created_at\": \"date-time\",\n  \"updated_at\": \"date-time\"\n}\n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Release Resource",
+      "description": "",
+      "resources": [
+        {
+          "name": "",
+          "description": "",
+          "uriTemplate": "/releases{?module,owner,version,show_deleted,sort_by,limit,offset}",
+          "model": {},
+          "parameters": {},
+          "headers": {},
+          "actions": [
+            {
+              "name": "",
+              "description": "Returns a paginated list of module releases. The results can be limited in a number of ways, but all of the parameters are optional.\n\n",
+              "method": "GET",
+              "parameters": {
+                "module": {
+                  "description": "Takes the form of '{user}-{module}', limits the results to releases of that module",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "puppetlabs-ntp",
+                  "values": []
+                },
+                "owner": {
+                  "description": "Limits results to modules with a given owner",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "puppetlabs",
+                  "values": []
+                },
+                "version": {
+                  "description": "Limits results to releases matching a version range",
+                  "type": "number",
+                  "required": false,
+                  "default": "",
+                  "example": "1.0.0",
+                  "values": []
+                },
+                "show_deleted": {
+                  "description": "Include deleted releases in the results",
+                  "type": "boolean",
+                  "required": false,
+                  "default": "",
+                  "example": "",
+                  "values": [
+                    "true",
+                    "false"
+                  ]
+                },
+                "sort_by": {
+                  "description": "Change the order in which results are returned",
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "example": "",
+                  "values": [
+                    "downloads",
+                    "release_date",
+                    "module"
+                  ]
+                },
+                "limit": {
+                  "description": "Limits the number of results per page (default is 20)",
+                  "type": "number",
+                  "required": false,
+                  "default": "",
+                  "example": "1",
+                  "values": []
+                },
+                "offset": {
+                  "description": "Omits results from the beginning of the set, used for pagination (default is 0)",
+                  "type": "number",
+                  "required": false,
+                  "default": "",
+                  "example": "20",
+                  "values": []
+                }
+              },
+              "headers": {},
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": {
+                        "Content-Type": {
+                          "value": "application/json"
+                        }
+                      },
+                      "body": "See response schema.\n",
+                      "schema": "{\n  \"total\": \"integer\",\n  \"limit\": \"integer\",\n  \"offset\": \"integer\",\n  \"current\": \"uri\",\n  \"next\": \"uri\",\n  \"previous\": \"uri\",\n  \"results\": [\n    {\n      \"uri\": \"uri\",\n      \"version\": \"string\",\n      \"module\": {\n        \"uri\": \"string\",\n        \"name\": \"string\"\n      },\n      \"metadata\": \"object\",\n      \"tags\": [\n        \"string\"\n      ],\n      \"file_size\": \"integer\",\n      \"file_md5\": \"string\",\n      \"downloads\": \"integer\",\n      \"readme\": \"string\",\n      \"changelog\": \"string\",\n      \"license\": \"string\",\n      \"created_at\": \"date-time\",\n      \"updated_at\": \"date-time\",\n      \"deleted_at\": \"date-time\"\n    }\n  ]\n}\n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "",
+          "description": "",
+          "uriTemplate": "/releases/{user}-{module}-{version}",
+          "model": {},
+          "parameters": {},
+          "headers": {},
+          "actions": [
+            {
+              "name": "",
+              "description": "This operation does not accept any optional parameters. If you would rather not specify one or more of these values, construct your query using the /releases endpoint described above.\n\n",
+              "method": "GET",
+              "parameters": {
+                "user": {
+                  "description": "The owner of the module",
+                  "type": "string",
+                  "required": true,
+                  "default": "",
+                  "example": "puppetlabs",
+                  "values": []
+                },
+                "module": {
+                  "description": "The module name",
+                  "type": "string",
+                  "required": true,
+                  "default": "",
+                  "example": "ntp",
+                  "values": []
+                },
+                "version": {
+                  "description": "The version number",
+                  "type": "number",
+                  "required": true,
+                  "default": "",
+                  "example": "1.0.0",
+                  "values": []
+                }
+              },
+              "headers": {},
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": {
+                        "Content-Type": {
+                          "value": "application/json"
+                        }
+                      },
+                      "body": "See response schema.\n",
+                      "schema": "{\n  \"uri\": \"uri\",\n  \"version\": \"string\",\n  \"module\": {\n    \"uri\": \"string\",\n    \"name\": \"string\"\n  },\n  \"metadata\": \"object\",\n  \"tags\": [\n    \"string\"\n  ],\n  \"file_size\": \"integer\",\n  \"file_md5\": \"string\",\n  \"downloads\": \"integer\",\n  \"readme\": \"string\",\n  \"changelog\": \"string\",\n  \"license\": \"string\",\n  \"created_at\": \"date-time\",\n  \"updated_at\": \"date-time\",\n  \"deleted_at\": \"date-time\"\n}\n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
