@@ -1,14 +1,11 @@
 # apiary2swagger
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure library designed to convert [Apiary Blueprint](http://apiary.io/blueprint) documentation into the [Swagger](https://github.com/wordnik/swagger-core/wiki) format.
+
+## Does it work?
+
+No.
 
 ## Usage
 
-FIXME
-
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Wait for me to write it, then you can use it.
