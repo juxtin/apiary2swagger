@@ -1,0 +1,114 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://forgeapi.puppetlabs.com/v3",
+  "resourcePath": "/",
+  "produces": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "path": "/modules",
+      "operations": {
+        "method": "GET",
+        "summary": "Returns a list of modules meeting the specified criteria. Results are paginated and all of the parameters are optional.\n\n",
+        "notes": null,
+        "responseClass": null,
+        "nickname": null,
+        "parameters": {
+          "query": {
+            "description": "General search query",
+            "type": "string",
+            "required": false,
+            "default": "",
+            "example": "mysql",
+            "values": []
+          },
+          "owner": {
+            "description": "Search for modules with a given owner",
+            "type": "string",
+            "required": false,
+            "default": "",
+            "example": "puppetlabs",
+            "values": []
+          },
+          "tag": {
+            "description": "Limits the results to modules that have the given tag",
+            "type": "string",
+            "required": false,
+            "default": "",
+            "example": "time",
+            "values": []
+          },
+          "show_deleted": {
+            "description": "Includes modules with no releases in the results (default is false)",
+            "type": "boolean",
+            "required": false,
+            "default": "",
+            "example": "",
+            "values": [
+              "true",
+              "false"
+            ]
+          },
+          "sort_by": {
+            "description": "Change the order in which results are returned",
+            "type": "string",
+            "required": false,
+            "default": "",
+            "example": "",
+            "values": [
+              "rank",
+              "downloads",
+              "latest_release"
+            ]
+          },
+          "limit": {
+            "description": "Limits the number of results per page (default is 20)",
+            "type": "number",
+            "required": false,
+            "default": "",
+            "example": "10",
+            "values": []
+          },
+          "offset": {
+            "description": "Omits results from the beginning of the set, used for pagination (default is 0)",
+            "type": "number",
+            "required": false,
+            "default": "",
+            "example": "20",
+            "values": []
+          }
+        }
+      }
+    },
+    {
+      "path": "/modules/{user}-{module}",
+      "operations": {
+        "method": "GET",
+        "summary": "Requires both user and module to be defined. No optional parameters are supported for this endpoint, so use the `/modules` endpoint if you want to omit something and/or specify additional criteria.\n\n",
+        "notes": null,
+        "responseClass": null,
+        "nickname": null,
+        "parameters": {
+          "user": {
+            "description": "The name of the user who maintains the module",
+            "type": "string",
+            "required": true,
+            "default": "",
+            "example": "puppetlabs",
+            "values": []
+          },
+          "module": {
+            "description": "The name of the module to be queried",
+            "type": "string",
+            "required": true,
+            "default": "",
+            "example": "ntp",
+            "values": []
+          }
+        }
+      }
+    }
+  ]
+}
