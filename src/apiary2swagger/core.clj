@@ -14,23 +14,22 @@
    :paramType (if (= method "GET") "query" "post")})
 
 (defn parse-parameters [parameters method]
-  (into [](for [parameter parameters]
-    (merge
-      {:name (get parameter 0)}
-      (parse-parameter-data (get-in parameters [(get parameter 0)]) method)))))
+  (for [[paramname paramdata] parameters]
+     (merge {:name paramname}
+            (parse-parameter-data paramdata method))))
 
 (defn parse-action [action]
   (let [method (get-in action ["method"])]
     {:method method
-     :summary (get action "description")
-     :notes nil
-     :responseClass nil
-     :nickname nil
+     :summary "notes here"
+     :notes (get action "description")
+     :responseClass "none"
+     :nickname "none"
      :parameters (parse-parameters (get action "parameters") method)}))
 
 (defn parse-resource [resource]
   {:path (strip-querystrings (get resource "uriTemplate"))
-   :operations (parse-actions (get-in resource ["actions" 0]))})
+   :operations (map parse-action (get-in resource ["actions"]))})
 
 (defn swaggerize [api]
   {:apiVersion (get-in api ["_version"] "1.0")
@@ -40,11 +39,4 @@
    :produces ["application/json"]
    :apis (map parse-resource (get-in api ["resourceGroups" 0 "resources"]))})
 
-
-
-; test parsing actions
-(->> (get-in apiary ["resourceGroups" 0 "resources"])
-    (map #(get-in % ["actions" 0]))
-     (map parse-action))
-
-(spit "apiary.swagger.json"(json/write-str (swaggerize apiary)))
+(spit "module" (json/write-str (swaggerize apiary)))
